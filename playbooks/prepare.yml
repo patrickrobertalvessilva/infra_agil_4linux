@@ -1,0 +1,48 @@
+---
+# Este é o meu primeiro playbook
+- name: Primeiros passos com o Ansible
+  hosts: minion
+  tasks:
+  - name: Adicionando informacao no hosts
+    become: true
+    lineinfile: 
+      line: '{{item}}' 
+      path: '/etc/hosts'
+    with_items:
+    - '192.168.10.10 devops.dexter.com.br'
+    - '192.168.10.20 docker.dexter.com.br'
+    - '192.168.10.30 automation.dexter.com.br'
+    - '192.168.10.40 minion.dexter.com.br'
+
+  - name: Instalação de Pacotes
+    become: true
+    yum:
+      name: '{{packages}}'
+    vars:
+      packages:
+      - vim
+      - telnet
+      - ksh
+      - unzip
+      - wget
+      - curl
+      state: present 
+
+  - name: Registrando CentOs/Suse
+    set_fact: vim_path=/etc/vimrc
+    when: ansible_distribution != 'Debian'
+
+  - name: Registrando Debian
+    set_fact: vim_path=/etc/vim/vimrc
+    when: ansible_distribution == 'Debian'
+
+  - name: Alterando paramentro no vimrc 
+    become: true
+    lineinfile: 
+      line: '{{item}}' 
+      path: '{{vim_path}}'
+    with_items:
+    - 'set cursorcolumn'
+    - 'set cursorline'
+    - 'set nowrap'
+...

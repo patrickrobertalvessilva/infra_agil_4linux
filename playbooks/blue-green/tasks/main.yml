@@ -1,0 +1,12 @@
+---
+# tasks file for blue-green
+- name: Instalando Debian
+  import_tasks: debian.yml
+  when: ansible_distribution == 'Debian'
+- name: Instalando CentOs
+  import_tasks: centos.yml
+  when: ansible_distribution == 'CentOs'
+- name: Instalando Suse
+  import_tasks: suse.yml
+  when: ansible_distribution == 'Suse'
+...

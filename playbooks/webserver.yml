@@ -1,0 +1,23 @@
+- name: Provisionamento de servidor Web
+  hosts: minion
+  become: true
+  tasks:
+  - name: Instalacao Pacote
+    yum:
+      name: '{{pacote}}'
+    vars:
+      pacote:
+      - apache2
+      state: present
+
+  - file:
+      path: /var/www/html/infra-agil
+      state: directory
+  - unarchive:
+      src: /root/playbooks/files/site.tar.gz
+      dest: /var/www/html/infra-agil
+
+  - service:
+      name: apache2
+      state: restarted
+      enabled: yes

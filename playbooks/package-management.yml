@@ -1,0 +1,7 @@
+---
+# Gerencimento de instalação de pacote
+- hosts: all
+  become: true
+  roles:
+    - blue-green
+...

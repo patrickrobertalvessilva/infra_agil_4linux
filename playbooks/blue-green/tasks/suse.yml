@@ -1,0 +1,7 @@
+---
+# Arquivo Suse
+- zypper: 
+    update_cache: yes
+    name: htop
+    state: present
+...

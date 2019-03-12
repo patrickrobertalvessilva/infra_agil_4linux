@@ -1,0 +1,13 @@
+---
+- name: Variáveis no Ansible
+  hosts: all
+  vars:
+  - username: agile
+  tasks:
+  - user: 
+      name: '{{username}}'
+      shell: '/bin/bash'
+      createhome: yes
+      state: absent
+    become: yes
+...

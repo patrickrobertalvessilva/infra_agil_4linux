@@ -1,0 +1,13 @@
+---
+# Arquivo CentOs
+- yum:
+    autoremove: yes
+    update_cache: yes
+    name: '{{item}}'
+    state: present
+  vars:
+    item:
+    - 'epel-release'
+    - 'htop'
+    - 'namp'
+...
