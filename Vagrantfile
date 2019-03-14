@@ -15,24 +15,25 @@ Vagrant.configure("2") do |config|
     end
     devops.vm.provision "shell", inline: <<-SHELL
 	echo 'deb http://ppa.launchpad.net/ansible/ansible/ubuntu trusty main' > /etc/apt/sources.list.d/ansible.list
-	apt-get install -y dirmngr
-        wget https://apt.puppetlabs.com/puppet6-release-xenial.deb
+	apt-get install -y dirmngr wget
+        apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 93C4A3FD7BB9C367
+        wget 'https://apt.puppetlabs.com/puppet6-release-xenial.deb'
         dpkg -i puppet6-release-xenial.deb
         echo 'PATH=$PATH:/opt/puppetlabs/bin/' >> ~/.bashrc
-        systemctl stop puppetserver
-        rm -rf /etc/puppetlabs/puppet/ssl
-        puppetserver ca setup
-        systemctl start puppetserver
         apt-get update
-	apt-get install -y ansible vim puppet-agent
+	apt-get install -y ansible vim puppet-agent puppetserver
         HOSTS=$(head -n7 /etc/hosts)
         echo -e '$HOSTS' >> /etc/hosts
-        echo '192.168.10.20 docker.dexter.com.br' >> /etc/hosts
         echo '192.168.10.10 devops.dexter.com.br' >> /etc/hosts
+        echo '192.168.10.20 docker.dexter.com.br' >> /etc/host
         echo '192.168.10.30 automation.dexter.com.br' >> /etc/hosts
         echo '192.168.10.40 minion.dexter.com.br' >> /etc/hosts
         cp /vagrant/files/inventory /etc/ansible/hosts
         cp /vagrant/files/ansible.cfg /etc/ansible/ansible.cfg
+        systemctl stop puppetserver
+        rm -rf /etc/puppetlabs/puppet/ssl
+#        puppetserver ca setup
+#        systemctl start puppetserver
     SHELL
   end
 
