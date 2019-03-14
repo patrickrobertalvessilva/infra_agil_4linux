@@ -1,0 +1,29 @@
+---
+version: '3.3'
+services:
+  db:
+    image: mariadb
+    volumes:
+    - data:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: '4linux'
+      MYSQL_DATABASE: 'infra-agil'
+      MYSQL_USER: 'infra-agil'
+      MYSQL_PASSWORD: '4linux'
+
+  site:
+    depends_on:
+    - db
+    image: wordpress
+    ports:
+    - '8080:80'
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_USER: 'infra-agil'
+      WORDPRESS_DB_PASSWORD: '4linux'
+      WORDPRESS_DB_NAME: 'infra-agil'
+
+volumes:
+  data: {}
+...
